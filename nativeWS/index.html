@@ -19,7 +19,7 @@
             let socket = new WebSocket("ws://127.0.0.1:8080");
 
             socket.onopen = function (event) {
-            	console.log('Соединение установлено ');
+            	console.log('Connection is established');
             };
             socket.onmessage = function (event) {
             	let messageItem = document.createElement('div');
@@ -27,12 +27,24 @@
             	messageItem.innerHTML = event.data;
             	box.appendChild(messageItem);
             	box.scrollTop += box.scrollHeight;
+            };
+
+            socket.onclose = function(event) {
+                if (event.wasClean) {
+                  console.log(`Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+                } else {
+                  console.log('Connection has been terminated');
+                }
+            };
+
+            socket.onerror = function(event) {
+            	if (event.message === undefined) {
+                  console.log(`We have some problems with server`)
+                } else {
+                  console.log(`Occurred an error: ${event.message}`)
+                }
             }
 
-
-
         </script>
-
     </body>
-
 </html>
