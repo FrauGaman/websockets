@@ -1,9 +1,7 @@
 const http = require('http');
-const randomWords = require('random-words');
-
 let server = http.createServer(function(request, response){});
 const io = require('socket.io').listen(server);
-
+const randomWords = require('random-words');
 
 function createSentence() {
 	let sentence = randomWords({ min: 2, max: 30, join: ' '});
@@ -11,12 +9,23 @@ function createSentence() {
 	return sentence;
 }
 
-	io.sockets.on('connection', function (socket) {
-		let timerId = setTimeout( function connect() {
-			socket.emit('message', createSentence());
-			timerId = setTimeout(connect, 3000);
-		}, 3000)
+io.sockets.on('connection', function (socket) {
+	socket.emit('open', 'Connection is established');
+	let timerId = setTimeout( function connect() {
+		socket.emit('message', createSentence());
+		timerId = setTimeout(connect, 3000);
+	}, 3000);
 
-	});
+});
+
+io.sockets.on('disconnect', function(status) {
+	console.log(status);
+
+	if (status === 'io server disconnect') {
+		socket.close();
+	}
+});
+
+
 
 server.listen(8080);

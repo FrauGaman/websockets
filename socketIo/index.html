@@ -20,13 +20,21 @@
 
         <script>
             let box = document.getElementById('message__list');
-                socket.on('message', function (data) {
-                    let messageItem = document.createElement('div');
-                    messageItem.className = 'new__message';
-                    messageItem.innerHTML = data;
-                    box.appendChild(messageItem);
-                    box.scrollTop += box.scrollHeight;
-                })
+            socket.on('open', function(data) {
+            	console.log(data);
+            });
+            socket.on('message', function (data) {
+                let messageItem = document.createElement('div');
+                messageItem.className = 'new__message';
+                messageItem.innerHTML = data;
+                box.appendChild(messageItem);
+                box.scrollTop += box.scrollHeight;
+            });
+            socket.on('connect_error', function (err) {
+
+            	console.log('connect_error', err);
+                socket.disconnect();
+            })
         </script>
 
     </body>
