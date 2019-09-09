@@ -14,6 +14,6 @@ function createSentence() {
 		let timerId = setTimeout(
 			function connect() {
 				ws.send(createSentence());
-				timerId = setTimeout(connect, 500);
-			}, 500)
+				timerId = setTimeout(connect, 3000);
+			}, 3000)
 	});

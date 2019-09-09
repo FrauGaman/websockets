@@ -16,7 +16,7 @@
 
         <script>
             let box = document.getElementById('message__list');
-            let socket = new WebSocket("ws://127.0.0.1:8080");
+            let socket = new WebSocket("ws://localhost:8080");
 
             socket.onopen = function (event) {
             	console.log('Connection is established');
